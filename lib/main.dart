@@ -76,6 +76,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state){
     print("app state----");
     print(state);
+    // inactive- the phase of from active to inactive. very short 
+    //paused- in background
+    // resumed- when back to focus
   }
 
   @override
