@@ -8,7 +8,6 @@ import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
 import './models/transaction.dart';
-
 void main() {
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
@@ -168,38 +167,41 @@ class _MyHomePageState extends State<MyHomePage> {
       txListWidget
     ];
   }
+  PreferredSizeWidget _getPreferredSizeWidget(final bool isIos, BuildContext ctx){
+    const Widget titleText=Text('Personal Expenses');
+    if(isIos){
+      return CupertinoNavigationBar(
+        middle: titleText ,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            GestureDetector(
+              child: Icon(CupertinoIcons.add),
+              onTap: () => _startAddNewTransaction(ctx),
+            ),
+          ],
+        ),
+      );
+    }
+    else{
+      return AppBar(
+        title: titleText,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _startAddNewTransaction(ctx),
+          ),
+        ],
+      );
+    }
+}
 
   @override
   Widget build(BuildContext context) {
     print('build() MyHomePageState');
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final PreferredSizeWidget appBar = Platform.isIOS
-        ? CupertinoNavigationBar(
-            middle: Text(
-              'Personal Expenses',
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                GestureDetector(
-                  child: Icon(CupertinoIcons.add),
-                  onTap: () => _startAddNewTransaction(context),
-                ),
-              ],
-            ),
-          )
-        : AppBar(
-            title: Text(
-              'Personal Expenses',
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _startAddNewTransaction(context),
-              ),
-            ],
-          );
+    final PreferredSizeWidget appBar = _getPreferredSizeWidget(Platform.isIOS,context);
     final txListWidget = Container(
       height: (mediaQuery.size.height -
               appBar.preferredSize.height -
