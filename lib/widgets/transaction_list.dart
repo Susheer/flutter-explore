@@ -32,14 +32,7 @@ class TransactionList extends StatelessWidget {
               ],
             );
           })
-        : ListView.builder(
-            itemBuilder: (ctx, index) {
-              return TransactionItem(
-                transaction: transactions[index],
-                deleteTx: deleteTx,
-              );
-            },
-            itemCount: transactions.length,
-          );
+        : ListView( semanticChildCount:transactions.length,
+        children: transactions.map((txItem)=> TransactionItem(transaction: txItem, deleteTx: deleteTx)).toList());
   }
 }
